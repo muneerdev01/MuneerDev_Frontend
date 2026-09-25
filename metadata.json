@@ -1,0 +1,6 @@
+{
+  "name": "muneerdev_frontend",
+  "description": "Next.js 15 App Router frontend with React 19, Tailwind CSS v4, and Supabase integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
