@@ -136,7 +136,7 @@ export function HomePage({ onNavigate, onArticleClick }: HomePageProps) {
                 <div className="relative p-[2.5px] rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 shadow-xl shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 group">
                   <div className="relative aspect-square w-full overflow-hidden rounded-[14px] bg-zinc-900">
                     <Image
-                      src="/profile.png"
+                      src="public/Profile Pic.jpg"
                       alt={`${authorName} - Software Engineer, Data Analyst & Healthcare Automation Expert`}
                       width={350}
                       height={350}

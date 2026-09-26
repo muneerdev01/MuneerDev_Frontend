@@ -119,7 +119,7 @@ export default function HomePage() {
                       </div>
                     ) : (
                       <Image
-                        src="/profile.png"
+                        src="/Portfolio Pic.jpg"
                         alt={`${siteConfig.name} - Software Engineer, Data Analyst & Healthcare Automation Expert`}
                         width={350}
                         height={350}
