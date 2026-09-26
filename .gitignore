@@ -1,16 +1,34 @@
+# Dependencies
 node_modules/
-build/
-dist/
-coverage/
-.DS_Store
-*.log
+/.pnp
+.pnp.js
+
+# Production & Local Builds
+/build
+/dist
+/.next/
+/out/
+
+# TypeScript Build Info
+tsconfig.tsbuildinfo
+
+# Testing & Coverage
+/coverage
+
+# Environment Variables & Secrets
 .env*
 !.env.example
 
-.next/
-node_modules/
-tsconfig.tsbuildinfo
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-.next/
-node_modules/
-tsconfig.tsbuildinfo
+# System & Editor Cache
+.DS_Store
+Thumbs.db
+/.idea
+/.vscode
+*.swp
