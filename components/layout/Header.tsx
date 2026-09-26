@@ -106,12 +106,12 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
           {bookingLink && (
             <a
               href={bookingLink}
-              target="_blank"
+              target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/30 px-3 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-colors"
             >
               <Calendar className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Book Call</span>
+              <span>{siteConfig.contact.booking.label}</span>
             </a>
           )}
 
@@ -170,7 +170,7 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
               {bookingLink && (
                 <a
                   href={bookingLink}
-                  target="_blank"
+                  target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-xs font-semibold text-emerald-300"
                 >

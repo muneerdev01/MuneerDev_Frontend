@@ -17,6 +17,16 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = `${formData.topic}: ${formData.name}`;
+    const body = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Area of inquiry: ${formData.topic}`,
+      '',
+      formData.message,
+    ].join('\n');
+
+    window.location.href = `mailto:contact@muneerdev.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSubmitted(true);
   };
 
@@ -52,9 +62,9 @@ export default function ContactPage() {
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-zinc-100">Message Received</h3>
+                <h3 className="text-lg font-bold text-zinc-100">Email Draft Ready</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm mx-auto">
-                  Thank you for reaching out. I typically review and reply to engineering inquiries within 1 business day.
+                  Your email app should open with the inquiry details. Send the prepared draft there to complete delivery.
                 </p>
                 <button
                   type="button"

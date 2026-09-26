@@ -80,7 +80,7 @@ export function HomePage({ onNavigate, onArticleClick }: HomePageProps) {
                 {bookingLink && (
                   <a
                     href={bookingLink}
-                    target="_blank"
+                    target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-950 hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/10"
                   >
@@ -111,12 +111,12 @@ export function HomePage({ onNavigate, onArticleClick }: HomePageProps) {
                 {whatsappLink && (
                   <a
                     href={whatsappLink}
-                    target="_blank"
+                    target={siteConfig.contact.whatsapp.label === 'Contact' ? undefined : '_blank'}
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-950/30 px-3.5 py-3 text-sm font-medium text-emerald-300 hover:bg-emerald-900/40 transition-colors"
                   >
                     <MessageCircle className="h-4 w-4 text-emerald-400" />
-                    <span>WhatsApp</span>
+                    <span>{siteConfig.contact.whatsapp.label}</span>
                   </a>
                 )}
 

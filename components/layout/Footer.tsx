@@ -69,7 +69,7 @@ export function Footer({ onNavigate }: FooterProps) {
               {githubUrl && (
                 <a
                   href={githubUrl}
-                  target="_blank"
+                  target={siteConfig.contact.whatsapp.label === 'Contact' ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg hover:text-emerald-400 hover:bg-zinc-900 border border-zinc-800/80 transition-colors"
                   aria-label="GitHub"
@@ -137,8 +137,8 @@ export function Footer({ onNavigate }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg hover:text-emerald-400 hover:bg-zinc-900 border border-zinc-800/80 transition-colors"
-                  aria-label={`WhatsApp (${whatsappFormatted})`}
-                  title={`WhatsApp (${whatsappFormatted})`}
+                  aria-label={siteConfig.contact.whatsapp.label === 'Contact' ? 'Contact' : `WhatsApp (${whatsappFormatted})`}
+                  title={siteConfig.contact.whatsapp.label === 'Contact' ? 'Contact' : `WhatsApp (${whatsappFormatted})`}
                 >
                   <MessageCircle className="h-4 w-4" />
                 </a>
@@ -161,7 +161,7 @@ export function Footer({ onNavigate }: FooterProps) {
               <div className="pt-2">
                 <a
                   href={bookingLink}
-                  target="_blank"
+                  target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-3.5 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-all"
                 >

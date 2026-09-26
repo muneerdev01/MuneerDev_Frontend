@@ -63,7 +63,6 @@ export function AdminLoginModal({ onSuccess, onCancel }: AdminLoginModalProps) {
         <div>
           <label className="block text-xs font-mono text-zinc-300 mb-1.5 flex items-center justify-between">
             <span>Passcode / Bearer Token</span>
-            <span className="text-[10px] text-zinc-500">Default demo: admin123</span>
           </label>
           <div className="relative">
             <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />

@@ -21,6 +21,7 @@ export default function HomePage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [activeBlogTab, setActiveBlogTab] = useState<'ALL' | 'TECH' | 'HEALTHCARE_MEDICINE'>('ALL');
   const [loading, setLoading] = useState(true);
+  const [profileImageFailed, setProfileImageFailed] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -69,7 +70,7 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <a
                   href={siteConfig.contact.booking.link}
-                  target="_blank"
+                  target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-bold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-lg hover:shadow-emerald-500/20 active:scale-95"
                 >
@@ -83,18 +84,18 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/90 px-5 py-3 text-sm font-semibold text-zinc-200 hover:bg-zinc-800 hover:text-zinc-100 transition-colors"
                 >
                   <FolderGit2 className="h-4 w-4 text-emerald-400" />
-                  <span>Projects &amp; Deployments (10)</span>
+                  <span>Projects &amp; Deployments ({MUNEERDEV_PROJECTS.length})</span>
                 </Link>
 
                 <a
                   href={siteConfig.contact.whatsapp.link}
-                  target="_blank"
+                  target={siteConfig.contact.whatsapp.label === 'Contact' ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-950/30 px-4 py-3 text-sm font-medium text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-colors"
-                  title={`WhatsApp: ${siteConfig.contact.whatsapp.formatted}`}
+                  title={siteConfig.contact.whatsapp.label === 'Contact' ? 'Contact' : `WhatsApp: ${siteConfig.contact.whatsapp.formatted}`}
                 >
                   <MessageCircle className="h-4 w-4 text-emerald-400" />
-                  <span>WhatsApp</span>
+                  <span>{siteConfig.contact.whatsapp.label}</span>
                 </a>
 
                 <Link
@@ -112,15 +113,22 @@ export default function HomePage() {
                 {/* Subtle emerald-to-cyan gradient border with soft shadow */}
                 <div className="relative p-[2.5px] rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 shadow-xl shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 group">
                   <div className="relative aspect-square w-full overflow-hidden rounded-[14px] bg-zinc-900">
-                    <Image
-                      src="/profile.png"
-                      alt={`${siteConfig.name} - Software Engineer, Data Analyst & Healthcare Automation Expert`}
-                      width={350}
-                      height={350}
-                      priority
-                      referrerPolicy="no-referrer"
-                      className="h-full w-full object-cover rounded-[14px] transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
+                    {profileImageFailed ? (
+                      <div className="flex h-full w-full items-center justify-center bg-zinc-900 text-5xl font-semibold text-zinc-500" role="img" aria-label={`${siteConfig.name} profile image fallback`}>
+                        GM
+                      </div>
+                    ) : (
+                      <Image
+                        src="/profile.png"
+                        alt={`${siteConfig.name} - Software Engineer, Data Analyst & Healthcare Automation Expert`}
+                        width={350}
+                        height={350}
+                        priority
+                        referrerPolicy="no-referrer"
+                        onError={() => setProfileImageFailed(true)}
+                        className="h-full w-full object-cover rounded-[14px] transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -297,13 +305,13 @@ export default function HomePage() {
             <div className="space-y-2 max-w-2xl">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
                 <FolderGit2 className="h-3.5 w-3.5" />
-                <span>Live Deployments</span>
+                <span>Selected Projects</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-100">
-                Verified Production Projects
+                Featured Projects
               </h2>
               <p className="text-sm sm:text-base text-zinc-400">
-                Real-world web applications, clinical risk analytics, healthcare AI systems, data-streaming workflows, and business intelligence dashboards deployed live.
+                Healthcare, AI, cloud, and data projects with demo and repository links from the portfolio data.
               </p>
             </div>
 
@@ -311,7 +319,7 @@ export default function HomePage() {
               href="/projects"
               className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
             >
-              <span>View all 10 live projects</span>
+              <span>View all {MUNEERDEV_PROJECTS.length} projects</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -328,7 +336,7 @@ export default function HomePage() {
                       {project.category}
                     </span>
                     <span className="rounded bg-emerald-950/60 border border-emerald-500/20 px-2 py-0.5 font-mono text-[10px] text-emerald-400 font-semibold">
-                      Live
+                      Demo URL
                     </span>
                   </div>
                   <h3 className="text-lg font-bold text-zinc-100 group-hover:text-emerald-300 transition-colors">
@@ -362,7 +370,7 @@ export default function HomePage() {
                       className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 px-3 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/25 hover:border-emerald-500/50 transition-colors"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      <span>Live Demo</span>
+                      <span>Open Demo</span>
                     </a>
                     <a
                       href={project.githubUrl}

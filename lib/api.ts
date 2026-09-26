@@ -48,14 +48,11 @@ export async function verifyAdmin(): Promise<boolean> {
 
     if (res.ok) {
       const data = await res.json();
-      return !!data.valid;
-    }
-    if (token === 'admin-authenticated' || token.length > 10) {
-      return true;
+      return data.valid === true;
     }
     return false;
   } catch {
-    return token === 'admin-authenticated' || token.length > 10;
+    return false;
   }
 }
 
@@ -78,13 +75,8 @@ export async function adminLogin(password: string): Promise<{ success: boolean; 
       }
     }
   } catch (err) {
-    console.warn('Backend login endpoint unavailable, using standard auth verification fallback', err);
-  }
-
-  if (password === 'admin123' || password === 'muneer2026') {
-    const mockToken = 'admin-authenticated';
-    setAdminToken(mockToken);
-    return { success: true, token: mockToken };
+    console.warn('Backend login endpoint unavailable', err);
+    return { success: false, error: 'Authentication service is unavailable. Please try again later.' };
   }
 
   return { success: false, error: 'Invalid admin credentials' };

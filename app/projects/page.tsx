@@ -39,10 +39,10 @@ export default function ProjectsPage() {
             <span>Engineering Portfolio</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-100">
-            Architected & Deployed Systems
+            Project Portfolio
           </h1>
           <p className="text-base text-zinc-400 leading-relaxed">
-            A verified record of production systems, healthcare analytics, and open-source infrastructure designed and maintained by MuneerDev.
+            Healthcare, AI, cloud, and data projects drawn from the portfolio data, with demo and repository links where configured.
           </p>
         </div>
 
@@ -53,11 +53,10 @@ export default function ProjectsPage() {
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                selectedCategory === cat
+              className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${selectedCategory === cat
                   ? 'bg-zinc-800 text-zinc-100 border border-zinc-700'
                   : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+                }`}
             >
               {cat === 'ALL' ? 'All Projects' : cat}
             </button>
@@ -77,7 +76,7 @@ export default function ProjectsPage() {
                     {proj.category}
                   </span>
                   <span className="rounded bg-zinc-800 px-2 py-0.5 font-mono text-[10px] text-zinc-400">
-                    Production
+                    Portfolio entry
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-zinc-100">{proj.name}</h3>
@@ -111,7 +110,7 @@ export default function ProjectsPage() {
                       className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 px-3 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-500/25 hover:border-emerald-500/50 transition-colors"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      <span>Live Demo</span>
+                      <span>Open Demo</span>
                     </a>
                   )}
                   {proj.githubUrl && (
