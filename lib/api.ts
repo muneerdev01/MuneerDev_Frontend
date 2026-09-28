@@ -3,7 +3,7 @@
 
 import { Article, FetchArticlesParams, FetchArticlesResponse } from '@/types/blog';
 
-const RENDER_BACKEND_URL = process.env.NEXT_PUBLIC_RENDER_BACKEND_URL || 'https://your-backend.onrender.com';
+const RENDER_BACKEND_URL = process.env.NEXT_PUBLIC_RENDER_BACKEND_URL || 'https://muneerdev-backend-v2-1.onrender.com';
 const ADMIN_TOKEN_KEY = 'muneerdev_admin_token';
 
 /**
