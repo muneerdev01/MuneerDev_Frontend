@@ -58,13 +58,17 @@ export async function verifyAdmin(): Promise<boolean> {
 
 /**
  * Authenticate admin with credentials against backend or fallback credentials
+ * Now accepts BOTH username and password
  */
-export async function adminLogin(password: string): Promise<{ success: boolean; token?: string; error?: string }> {
+export async function adminLogin(
+  username: string,
+  password: string
+): Promise<{ success: boolean; token?: string; error?: string }> {
   try {
     const res = await fetch(`${RENDER_BACKEND_URL}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username, password }),
     });
 
     if (res.ok) {

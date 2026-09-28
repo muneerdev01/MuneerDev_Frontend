@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Shield, Key, ArrowRight, Lock, AlertCircle } from 'lucide-react';
+import { Shield, Key, ArrowRight, Lock, AlertCircle, User } from 'lucide-react';
 import { adminLogin } from '@/lib/api';
 
 interface AdminLoginModalProps {
@@ -10,21 +10,23 @@ interface AdminLoginModalProps {
 }
 
 export function AdminLoginModal({ onSuccess, onCancel }: AdminLoginModalProps) {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password) {
-      setError('Please enter the administrative key.');
+
+    if (!username || !password) {
+      setError('Please enter both admin name and passcode.');
       return;
     }
 
     setLoading(true);
     setError(null);
 
-    const result = await adminLogin(password);
+    const result = await adminLogin(username, password);
     setLoading(false);
 
     if (result.success) {
@@ -60,6 +62,26 @@ export function AdminLoginModal({ onSuccess, onCancel }: AdminLoginModalProps) {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+
+        {/* NAYA: Admin Name Field */}
+        <div>
+          <label className="block text-xs font-mono text-zinc-300 mb-1.5">
+            <span>Admin Name</span>
+          </label>
+          <div className="relative">
+            <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter admin username"
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-950 pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-emerald-500 focus:outline-hidden"
+              autoFocus
+            />
+          </div>
+        </div>
+
+        {/* Purana: Passcode Field */}
         <div>
           <label className="block text-xs font-mono text-zinc-300 mb-1.5 flex items-center justify-between">
             <span>Passcode / Bearer Token</span>
@@ -72,7 +94,6 @@ export function AdminLoginModal({ onSuccess, onCancel }: AdminLoginModalProps) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
               className="w-full rounded-xl border border-zinc-800 bg-zinc-950 pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-emerald-500 focus:outline-hidden"
-              autoFocus
             />
           </div>
         </div>
