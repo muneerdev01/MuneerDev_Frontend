@@ -3,7 +3,7 @@
 
 import { Article, FetchArticlesParams, FetchArticlesResponse } from '@/types/blog';
 
-const RENDER_BACKEND_URL = process.env.NEXT_PUBLIC_RENDER_BACKEND_URL || 'https://your-backend.onrender.com';
+const RENDER_BACKEND_URL = process.env.NEXT_PUBLIC_RENDER_BACKEND_URL || 'https://muneerdev-backend-v2-1.onrender.com';
 const ADMIN_TOKEN_KEY = 'muneerdev_admin_token';
 
 /**
@@ -31,14 +31,15 @@ export function removeAdminToken(): void {
 }
 
 /**
- * Verify current admin token with backend or fallback verification rules
+ * Verify current admin token with backend
+ * UPDATED: Route changed to /api/v1/auth/verify
  */
 export async function verifyAdmin(): Promise<boolean> {
   const token = getAdminToken();
   if (!token) return false;
 
   try {
-    const res = await fetch(`${RENDER_BACKEND_URL}/api/admin/verify`, {
+    const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +58,8 @@ export async function verifyAdmin(): Promise<boolean> {
 }
 
 /**
- * Authenticate admin with credentials against backend or fallback credentials
+ * Authenticate admin with credentials against backend
+ * UPDATED: Route changed to /api/v1/auth/login
  * Now accepts BOTH username and password
  */
 export async function adminLogin(
@@ -65,7 +67,7 @@ export async function adminLogin(
   password: string
 ): Promise<{ success: boolean; token?: string; error?: string }> {
   try {
-    const res = await fetch(`${RENDER_BACKEND_URL}/api/admin/login`, {
+    const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -73,9 +75,20 @@ export async function adminLogin(
 
     if (res.ok) {
       const data = await res.json();
-      if (data.token) {
-        setAdminToken(data.token);
-        return { success: true, token: data.token };
+      if (data.token || data.access_token) {
+        const token = data.token || data.access_token;
+        setAdminToken(token);
+        return { success: true, token };
+      }
+    }
+
+    // Agar response ok nahi hai, toh error message nikaalein
+    if (!res.ok) {
+      try {
+        const errorData = await res.json();
+        return { success: false, error: errorData.detail || 'Invalid admin credentials' };
+      } catch {
+        return { success: false, error: 'Invalid admin credentials' };
       }
     }
   } catch (err) {
@@ -244,6 +257,7 @@ Render offers an excellent cloud application platform for hosting backend APIs w
 
 /**
  * Fetch published articles from backend with parameters, falling back to local dataset on offline/error state.
+ * UPDATED: Route changed to /api/public/articles/
  */
 export async function fetchPublishedArticles(
   params?: FetchArticlesParams
@@ -256,7 +270,7 @@ export async function fetchPublishedArticles(
     if (params?.search) query.set('search', params.search);
     if (params?.limit) query.set('limit', String(params.limit));
 
-    const res = await fetch(`${RENDER_BACKEND_URL}/api/articles?${query.toString()}`, {
+    const res = await fetch(`${RENDER_BACKEND_URL}/api/public/articles/?${query.toString()}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
