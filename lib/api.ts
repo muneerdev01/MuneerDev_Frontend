@@ -60,7 +60,8 @@ export async function verifyAdmin(): Promise<boolean> {
 /**
  * Authenticate admin with credentials against backend
  * UPDATED: Route changed to /api/v1/auth/login
- * Now accepts BOTH username and password
+ * UPDATED: Backend expects 'email' field instead of 'username'
+ * Now accepts BOTH username (mapped to email) and password
  */
 export async function adminLogin(
   username: string,
@@ -70,7 +71,8 @@ export async function adminLogin(
     const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      // ⚠️ AHEM: Backend 'email' field expect karta hai, 'username' nahi
+      body: JSON.stringify({ email: username, password }),
     });
 
     if (res.ok) {
