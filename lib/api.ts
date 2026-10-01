@@ -32,24 +32,22 @@ export function removeAdminToken(): void {
 
 /**
  * Verify current admin token with backend
- * UPDATED: Route changed to /api/v1/auth/verify
+ * UPDATED: Uses /api/v1/auth/me (GET with Bearer token)
  */
 export async function verifyAdmin(): Promise<boolean> {
   const token = getAdminToken();
   if (!token) return false;
 
   try {
-    const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/verify`, {
-      method: 'POST',
+    const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/me`, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
       },
     });
 
     if (res.ok) {
-      const data = await res.json();
-      return data.valid === true;
+      return true;
     }
     return false;
   } catch {
@@ -59,9 +57,7 @@ export async function verifyAdmin(): Promise<boolean> {
 
 /**
  * Authenticate admin with credentials against backend
- * UPDATED: Route changed to /api/v1/auth/login
- * UPDATED: Backend expects 'email' field instead of 'username'
- * Now accepts BOTH username (mapped to email) and password
+ * Backend expects 'email' field
  */
 export async function adminLogin(
   username: string,
@@ -71,20 +67,19 @@ export async function adminLogin(
     const res = await fetch(`${RENDER_BACKEND_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // ⚠️ AHEM: Backend 'email' field expect karta hai, 'username' nahi
       body: JSON.stringify({ email: username, password }),
     });
 
     if (res.ok) {
       const data = await res.json();
-      if (data.token || data.access_token) {
-        const token = data.token || data.access_token;
+      // Backend returns: { token: { access_token, token_type, expires_in }, user: {...} }
+      const token = data.token?.access_token || data.access_token || data.token;
+      if (token) {
         setAdminToken(token);
         return { success: true, token };
       }
     }
 
-    // Agar response ok nahi hai, toh error message nikaalein
     if (!res.ok) {
       try {
         const errorData = await res.json();
@@ -127,19 +122,9 @@ export const SAMPLE_ARTICLES: (BlogPost & Article)[] = [
     slug: 'migrating-to-nextjs-15-app-router',
     title: 'Architecting High-Performance Web Apps with Next.js 15 & React 19',
     summary: 'A deep architectural dive into server components, streaming SSR, and zero-bundle-size optimizations on Next.js 15.',
-    content: `
-# Architecting High-Performance Web Apps with Next.js 15 & React 19
+    content: `# Architecting High-Performance Web Apps with Next.js 15 & React 19
 
-Next.js 15 introduces game-changing primitives for frontend engineering, combining React 19 server actions, asynchronous request handling, and optimized asset pipelines.
-
-## Why the App Router?
-- **Server-First by Default**: Eliminate excessive client-side JavaScript execution.
-- **Nested Layouts**: Prevent unnecessary rerenders during route transitions.
-- **Enhanced Caching Controls**: Deterministic caching defaults that put developers in full control of data lifecycles.
-
-## Connecting to Separated Backends
-When decoupling a Next.js 15 frontend from a Node/Python microservice running on platforms like Render, caching and CORS strategies become critical. Next.js can act as an API orchestrator or serve as a fast edge client.
-    `,
+Next.js 15 introduces game-changing primitives for frontend engineering.`,
     category: 'Engineering',
     type: 'Architecture',
     blog_type: 'TECH',
@@ -148,118 +133,29 @@ When decoupling a Next.js 15 frontend from a Node/Python microservice running on
     published_at: '2026-03-15',
     readTime: '6 min read',
     read_time: '6 min read',
-    author: {
-      name: 'Muneer',
-      role: 'Full-Stack Software Engineer',
-    },
+    author: { name: 'Muneer', role: 'Full-Stack Software Engineer' },
   },
   {
     id: '2',
     slug: 'fhir-clinical-data-modeling',
     title: 'HL7 FHIR R4 Ingestion: Real-Time Stream Architecture for EHR Systems',
-    summary: 'Building high-throughput, HIPAA-compliant event pipelines for clinical observations and medical records.',
-    content: `
-# HL7 FHIR R4 Ingestion: Real-Time Stream Architecture for EHR Systems
-
-Integrating with hospital electronic health records requires strict conformance to FHIR specifications, deterministic schema validation, and secure data sanitization.
-
-## Core Architectural Layers
-1. **API Ingestion & TLS 1.3 Termination**: Verify client mTLS certificates and JWT assertions.
-2. **FHIR Validator Worker Pool**: Structural and semantic validation against US Core profiles.
-3. **Audit Log Store**: Append-only tamper-evident logs for HIPAA compliance.
-    `,
+    summary: 'Building high-throughput, HIPAA-compliant event pipelines.',
+    content: `# HL7 FHIR R4 Ingestion`,
     category: 'Clinical Informatics',
     type: 'Healthcare',
     blog_type: 'HEALTHCARE_MEDICINE',
-    tags: ['FHIR', 'HL7', 'HIPAA', 'Healthcare', 'Informatics'],
+    tags: ['FHIR', 'HL7', 'HIPAA', 'Healthcare'],
     publishedAt: '2026-03-02',
     published_at: '2026-03-02',
     readTime: '8 min read',
     read_time: '8 min read',
-    author: {
-      name: 'Muneer',
-      role: 'Clinical Informatics Engineer',
-    },
-  },
-  {
-    id: '3',
-    slug: 'mastering-tailwind-v4-performance',
-    title: 'Tailwind CSS v4 in Production: The Oxide Engine Breakdown',
-    summary: 'How the new lightning-fast Rust-powered compiler changes build times and eliminates traditional config files.',
-    content: `
-# Tailwind CSS v4 in Production: The Oxide Engine Breakdown
-
-Tailwind CSS v4 is a total rewrite centered on unified CSS-first configuration and zero-runtime overhead.
-
-## Key Upgrades
-1. **No tailwind.config.js**: Configure themes directly inside CSS using \`@theme\` directives.
-2. **Lightning Fast Builds**: Powered by the Oxide engine for sub-millisecond compilation.
-3. **Native CSS Cascading Layers**: Direct support for modern browser standards.
-    `,
-    category: 'Design Systems',
-    type: 'Tutorial',
-    blog_type: 'TECH',
-    tags: ['TailwindCSS', 'CSS', 'UI/UX'],
-    publishedAt: '2026-02-28',
-    published_at: '2026-02-28',
-    readTime: '4 min read',
-    read_time: '4 min read',
-    author: {
-      name: 'Muneer',
-      role: 'Full-Stack Software Engineer',
-    },
-  },
-  {
-    id: '4',
-    slug: 'clinical-rag-reasoning-agents',
-    title: 'Building Deterministic AI Reasoning Agents for Clinical Protocols',
-    summary: 'Architecting retrieval-augmented generation (RAG) with vector databases, medical ontology grounding, and zero-hallucination guardrails.',
-    content: `
-# Building Deterministic AI Reasoning Agents for Clinical Protocols
-
-Clinical decision support demands absolute citation grounding and verifiable evidence.
-    `,
-    category: 'AI Reasoning',
-    type: 'AI & Healthcare',
-    blog_type: 'HEALTHCARE_MEDICINE',
-    tags: ['AI', 'RAG', 'Healthcare', 'VectorDB'],
-    publishedAt: '2026-02-14',
-    published_at: '2026-02-14',
-    readTime: '7 min read',
-    read_time: '7 min read',
-    author: {
-      name: 'Muneer',
-      role: 'AI & Clinical Systems Engineer',
-    },
-  },
-  {
-    id: '5',
-    slug: 'scaling-render-backend-services',
-    title: 'Deploying & Scaling Containerized Backends on Render',
-    summary: 'Practical strategies for hosting persistent backend microservices with automatic deploy pipelines on Render.',
-    content: `
-# Deploying & Scaling Containerized Backends on Render
-
-Render offers an excellent cloud application platform for hosting backend APIs with automatic SSL, background workers, and managed databases.
-    `,
-    category: 'DevOps',
-    type: 'Infrastructure',
-    blog_type: 'TECH',
-    tags: ['Render', 'Cloud', 'Docker', 'PostgreSQL'],
-    publishedAt: '2026-01-20',
-    published_at: '2026-01-20',
-    readTime: '5 min read',
-    read_time: '5 min read',
-    author: {
-      name: 'Muneer',
-      role: 'Full-Stack Software Engineer',
-    },
+    author: { name: 'Muneer', role: 'Clinical Informatics Engineer' },
   },
 ];
 
 /**
- * Fetch published articles from backend with parameters, falling back to local dataset on offline/error state.
- * UPDATED: Route changed to /api/public/articles/
+ * Fetch published articles from backend
+ * UPDATED: Route changed to /public/articles/ (no /api/ prefix)
  */
 export async function fetchPublishedArticles(
   params?: FetchArticlesParams
@@ -272,7 +168,8 @@ export async function fetchPublishedArticles(
     if (params?.search) query.set('search', params.search);
     if (params?.limit) query.set('limit', String(params.limit));
 
-    const res = await fetch(`${RENDER_BACKEND_URL}/api/public/articles/?${query.toString()}`, {
+    // ⚠️ FIXED: /api/ hata diya
+    const res = await fetch(`${RENDER_BACKEND_URL}/public/articles/?${query.toString()}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
@@ -288,7 +185,7 @@ export async function fetchPublishedArticles(
     console.warn('Backend articles API offline, utilizing fallback local dataset', err);
   }
 
-  // Offline fallback execution with full multi-field filter support
+  // Offline fallback
   let filtered = [...SAMPLE_ARTICLES];
 
   if (params?.blog_type && params.blog_type !== 'ALL') {
