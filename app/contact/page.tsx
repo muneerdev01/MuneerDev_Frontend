@@ -49,16 +49,16 @@ export default function ContactPage() {
         const errorData = await response.json().catch(() => null);
         const detailMsg = typeof errorData?.detail === 'string' ? errorData.detail : '';
 
-        // Handle Render SMTP/Network block gracefully
+        // If backend catches network/email issue, still treat message as saved
         if (detailMsg.includes('Errno 101') || detailMsg.includes('Network is unreachable')) {
-          setSubmitted(true); // Treat as received since request reached backend
+          setSubmitted(true);
         } else {
-          setErrorMessage(detailMsg || 'Failed to submit inquiry. Please try again.');
+          setErrorMessage(detailMsg || 'Server error. Please try again.');
         }
       }
     } catch (error) {
       console.error('API Error:', error);
-      setErrorMessage('Network error connecting to backend. Please try again in a moment.');
+      setErrorMessage('Unable to connect to server. Please check connection and try again.');
     } finally {
       setLoading(false);
     }
@@ -93,7 +93,7 @@ export default function ContactPage() {
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-zinc-100">Inquiry Received Successfully!</h3>
-                <p className="text-xs text-zinc-400">Thank you for reaching out. Your message has been logged.</p>
+                <p className="text-xs text-zinc-400">Thank you for reaching out. Your message has been recorded.</p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
