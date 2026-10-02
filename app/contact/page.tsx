@@ -3,11 +3,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, ArrowLeft, Send, CheckCircle2, MessageSquare, Terminal, Stethoscope } from 'lucide-react';
+import { Mail, ArrowLeft, Send, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function ContactPage() {
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,19 +18,43 @@ export default function ContactPage() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = `${formData.topic}: ${formData.name}`;
-    const body = [
-      `Name: ${formData.name}`,
-      `Email: ${formData.email}`,
-      `Area of inquiry: ${formData.topic}`,
-      '',
-      formData.message,
-    ].join('\n');
+    setLoading(true);
+    setErrorMessage('');
 
-    window.location.href = `mailto:contact@muneerdev.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSubmitted(true);
+    try {
+      const response = await fetch('https://muneerdev-backend-v2.onrender.com/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: `${formData.topic}: ${formData.name}`,
+          message: `Area of inquiry: ${formData.topic}\n\n${formData.message}`,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          topic: 'Tech Architecture Consulting',
+          message: ''
+        });
+      } else {
+        const errorData = await response.json().catch(() => null);
+        setErrorMessage(errorData?.detail || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+      setErrorMessage('Unable to connect to the server. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,9 +89,9 @@ export default function ContactPage() {
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-zinc-100">Email Draft Ready</h3>
+                <h3 className="text-lg font-bold text-zinc-100">Message Delivered Successfully!</h3>
                 <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm mx-auto">
-                  Your email app should open with the inquiry details. Send the prepared draft there to complete delivery.
+                  Thank you for reaching out. Your inquiry has been transmitted directly to my inbox via Render backend. I will get back to you shortly.
                 </p>
                 <button
                   type="button"
@@ -76,6 +103,12 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+                {errorMessage && (
+                  <div className="p-3 rounded-xl border border-red-500/30 bg-red-950/40 text-red-400 text-xs">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <div>
                   <label className="block font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
                     Your Name *
@@ -136,10 +169,20 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 py-3 text-xs font-bold text-zinc-950 hover:bg-emerald-400 transition-colors"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-500 py-3 text-xs font-bold text-zinc-950 hover:bg-emerald-400 transition-colors disabled:opacity-50"
                 >
-                  <Send className="h-3.5 w-3.5" />
-                  <span>Send Consulting Inquiry</span>
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <span>Transmitting Inquiry...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-3.5 w-3.5" />
+                      <span>Send Consulting Inquiry</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
