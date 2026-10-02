@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Terminal, Shield, Menu, X, Calendar } from 'lucide-react';
+import { Terminal, Shield, Menu, X, ArrowUpRight, Calendar } from 'lucide-react';
 import { getAdminToken, verifyAdmin } from '@/lib/api';
 import { siteConfig } from '@/lib/siteConfig';
 
@@ -78,8 +78,8 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`px-3 py-1.5 rounded-lg transition-colors ${active
-                  ? 'bg-zinc-800/80 text-emerald-400 font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60'
+                    ? 'bg-zinc-800/80 text-emerald-400 font-semibold'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60'
                   }`}
               >
                 {link.label}
@@ -88,14 +88,14 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
           })}
         </nav>
 
-        {/* Action Controls / Admin & Booking */}
+        {/* Action Controls / Admin Badge */}
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/admin"
             onClick={(e) => handleLinkClick(e, '/admin')}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition-colors ${isActive('/admin')
-              ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
-              : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
+                ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
+                : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
               }`}
           >
             <Shield className="h-3.5 w-3.5" />
@@ -108,12 +108,21 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
               href={bookingLink}
               target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/30 px-3.5 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/30 px-3 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 hover:border-emerald-400 transition-colors"
             >
               <Calendar className="h-3.5 w-3.5 text-emerald-400" />
               <span>{siteConfig.contact.booking.label}</span>
             </a>
           )}
+
+          <Link
+            href="/contact"
+            onClick={(e) => handleLinkClick(e, '/contact')}
+            className="inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3.5 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-emerald-400 transition-colors"
+          >
+            <span>Let&apos;s Talk</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -140,15 +149,15 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`block px-3 py-2 rounded-lg text-sm font-medium ${active
-                  ? 'bg-zinc-800/80 text-emerald-400 font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
+                    ? 'bg-zinc-800/80 text-emerald-400 font-semibold'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
                   }`}
               >
                 {link.label}
               </Link>
             );
           })}
-          <div className="pt-3 border-t border-zinc-800 flex items-center justify-between gap-2">
+          <div className="pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
             <Link
               href="/admin"
               onClick={(e) => handleLinkClick(e, '/admin')}
@@ -157,18 +166,26 @@ export function Header({ currentPath: propPath, onNavigate, isAdminAuthenticated
               <Shield className="h-3.5 w-3.5" />
               <span>Admin Console {isAdmin ? '(Logged in)' : ''}</span>
             </Link>
-
-            {bookingLink && (
-              <a
-                href={bookingLink}
-                target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-xs font-semibold text-emerald-300"
+            <div className="flex items-center gap-2">
+              {bookingLink && (
+                <a
+                  href={bookingLink}
+                  target={siteConfig.contact.booking.label === 'Contact' ? undefined : '_blank'}
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-xs font-semibold text-emerald-300"
+                >
+                  <Calendar className="h-3 w-3 text-emerald-400" />
+                  <span>Book Call</span>
+                </a>
+              )}
+              <Link
+                href="/contact"
+                onClick={(e) => handleLinkClick(e, '/contact')}
+                className="rounded-lg bg-emerald-500 px-3 py-1 text-xs font-semibold text-zinc-950"
               >
-                <Calendar className="h-3 w-3 text-emerald-400" />
-                <span>Book Call</span>
-              </a>
-            )}
+                Contact
+              </Link>
+            </div>
           </div>
         </div>
       )}

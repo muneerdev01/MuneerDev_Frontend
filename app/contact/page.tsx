@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, ArrowLeft, Send, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function ContactPage() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,10 +23,8 @@ export default function ContactPage() {
     setLoading(true);
     setErrorMessage('');
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://muneerdev-backend-v2-1.onrender.com';
-
     try {
-      const response = await fetch(`${API_BASE}/api/v1/contact`, {
+      const response = await fetch('https://muneerdev-backend-v2.onrender.com/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,9 +76,13 @@ export default function ContactPage() {
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-100">
             Let&apos;s Discuss Your Project
           </h1>
+          <p className="text-base text-zinc-400 leading-relaxed">
+            Have a technical challenge in distributed web systems, AI reasoning agents, or clinical healthcare informatics? Send a message to schedule an introductory engineering discussion.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Form */}
           <div className="md:col-span-7 rounded-3xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-8 backdrop-blur-md">
             {submitted ? (
               <div className="py-12 text-center space-y-4">
@@ -86,6 +90,9 @@ export default function ContactPage() {
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-zinc-100">Message Delivered Successfully!</h3>
+                <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-sm mx-auto">
+                  Thank you for reaching out. Your inquiry has been transmitted directly to my inbox via Render backend. I will get back to you shortly.
+                </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
@@ -111,6 +118,7 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="e.g., Sarah Chen"
                     className="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-200 focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
@@ -124,6 +132,7 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="sarah@company.com"
                     className="w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-200 focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
@@ -153,6 +162,7 @@ export default function ContactPage() {
                     required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Describe your architecture requirements, data volume, compliance standards, or project timeline..."
                     className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3 text-xs text-zinc-200 focus:border-emerald-500 focus:outline-none leading-relaxed"
                   />
                 </div>
@@ -176,6 +186,44 @@ export default function ContactPage() {
                 </button>
               </form>
             )}
+          </div>
+
+          {/* Info Side */}
+          <div className="md:col-span-5 space-y-6">
+            <div className="rounded-3xl border border-zinc-800 bg-zinc-900/40 p-6 space-y-3">
+              <h3 className="text-sm font-bold text-zinc-200 uppercase tracking-wider">
+                Direct Contact
+              </h3>
+              <p className="text-xs text-zinc-400">
+                You can also email directly for urgent enterprise advisory or security assessments:
+              </p>
+              <a
+                href="mailto:contact@muneerdev.com"
+                className="inline-block font-mono text-sm font-semibold text-emerald-400 hover:underline"
+              >
+                contact@muneerdev.com
+              </a>
+            </div>
+
+            <div className="rounded-3xl border border-zinc-800 bg-zinc-900/40 p-6 space-y-3 text-xs text-zinc-400">
+              <h3 className="text-sm font-bold text-zinc-200 uppercase tracking-wider">
+                Engagement Model
+              </h3>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>Architectural reviews and code audits</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>Hands-on implementation and core system builds</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
+                  <span>Clinical FHIR / HIPAA compliance roadmaps</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
