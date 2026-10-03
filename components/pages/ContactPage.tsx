@@ -21,14 +21,14 @@ export default function ContactPage() {
     setLoading(true);
     setErrorMessage('');
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://muneerdev-backend-v2-1.onrender.com';
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000);
 
     try {
-      const response = await fetch(`${API_BASE}/api/v1/contact`, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
@@ -47,12 +47,19 @@ export default function ContactPage() {
         });
       } else {
         const errorData = await response.json().catch(() => null);
-        setErrorMessage(errorData?.detail || 'Failed to send message. Please try again.');
+        // FastAPI validation errors return detail as an array; only show plain strings
+        const detail = typeof errorData?.detail === 'string' ? errorData.detail : null;
+        setErrorMessage(detail || 'Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('API Error:', error);
-      setErrorMessage('Unable to connect to the server. Please check your connection.');
+      setErrorMessage(
+        (error as Error)?.name === 'AbortError'
+          ? 'The server took too long to respond. Please try again.'
+          : 'Unable to connect to the server. Please check your connection.'
+      );
     } finally {
+      clearTimeout(timer);
       setLoading(false);
     }
   };
