@@ -59,7 +59,7 @@ export const MUNEERDEV_PROJECTS: ProjectItem[] = [
     description:
       'Clinical intake and patient triage system built with FastAPI and Pydantic. It parses intake data, flags critical vital-sign anomalies (blood pressure, SpO2, heart rate, temperature) and assigns real-time clinical risk categories.',
     tags: ['FastAPI', 'Pydantic', 'Python', 'React', 'Vercel'],
-    // liveDemo: add the live https://....vercel.app URL from Vercel -> Project -> Domains
+    liveDemo: 'https://clinica-flow-intake-engine.vercel.app/',
     githubUrl: 'https://github.com/muneerdev01/ClinicaFlow-Intake-Engine',
   },
   {
@@ -69,7 +69,7 @@ export const MUNEERDEV_PROJECTS: ProjectItem[] = [
     description:
       'AI agent pipeline that researches a business lead, verifies the company, scores lead quality and drafts a personalised proposal, with a human approving the final action.',
     tags: ['LangGraph', 'AI Agents', 'FastAPI', 'React', 'Vercel'],
-    // liveDemo: add the live https://....vercel.app URL from Vercel -> Project -> Domains
+    liveDemo: 'https://agenticflow-autonomous-b2-b-intelli.vercel.app/',
     githubUrl: 'https://github.com/muneerdev01/-AGENTICFLOW-AUTONOMOUS-B2B-INTELLIGENCE-PIPELINE',
   },
   {
