@@ -42,7 +42,7 @@ export default function ProjectsPage() {
             Project Portfolio
           </h1>
           <p className="text-base text-zinc-400 leading-relaxed">
-            Healthcare, AI, cloud, and data projects drawn from the portfolio data, with demo and repository links where configured.
+            Healthcare, AI and data projects drawn from the portfolio data, with demo and repository links where configured.
           </p>
         </div>
 
@@ -54,8 +54,8 @@ export default function ProjectsPage() {
               type="button"
               onClick={() => setSelectedCategory(cat)}
               className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${selectedCategory === cat
-                  ? 'bg-zinc-800 text-zinc-100 border border-zinc-700'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-zinc-800 text-zinc-100 border border-zinc-700'
+                : 'text-zinc-400 hover:text-zinc-200'
                 }`}
             >
               {cat === 'ALL' ? 'All Projects' : cat}
