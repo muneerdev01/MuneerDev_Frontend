@@ -57,7 +57,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 <Terminal className="h-4 w-4" />
               </div>
               <span>
-                {brandName} <span className="text-emerald-400 font-mono text-xs">(muneer.dev)</span>
+                {brandName} <span className="text-emerald-400 font-mono text-xs">(muneerdev.com)</span>
               </span>
             </Link>
             <p className="text-sm text-zinc-400 max-w-sm leading-relaxed">
