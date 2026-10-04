@@ -38,7 +38,7 @@ export function Footer({ onNavigate }: FooterProps) {
   const instagramUrl = siteConfig?.socials?.instagram;
   const whatsappLink = siteConfig?.contact?.whatsapp?.link;
   const whatsappFormatted = siteConfig?.contact?.whatsapp?.formatted || 'WhatsApp';
-  const emailAddress = siteConfig?.contact?.email || 'contact@muneer.dev';
+  const emailAddress = siteConfig?.contact?.email || 'contact@muneerdev.com';
   const bookingLink = siteConfig?.contact?.booking?.link;
   const bookingLabel = siteConfig?.contact?.booking?.label || 'Schedule a Meeting';
 
@@ -69,7 +69,7 @@ export function Footer({ onNavigate }: FooterProps) {
               {githubUrl && (
                 <a
                   href={githubUrl}
-                  target={siteConfig.contact.whatsapp.label === 'Contact' ? undefined : '_blank'}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg hover:text-emerald-400 hover:bg-zinc-900 border border-zinc-800/80 transition-colors"
                   aria-label="GitHub"

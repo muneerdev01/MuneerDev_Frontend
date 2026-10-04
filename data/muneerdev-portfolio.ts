@@ -53,39 +53,104 @@ export const MUNEERDEV_SERVICES: ServiceItem[] = [
 
 export const MUNEERDEV_PROJECTS: ProjectItem[] = [
   {
-    id: 'fhir-stream-pipeline',
-    name: 'FHIRStream: Real-Time Clinical Ingestion Engine',
+    id: 'clinicaflow-intake-engine',
+    name: 'ClinicaFlow Intake Engine',
     category: 'Healthcare & Informatics',
-    description: 'A distributed event pipeline processing HL7/FHIR clinical observation streams with real-time anomaly detection and HIPAA audit logging.',
-    tags: ['FHIR R4', 'HL7', 'TypeScript', 'Node.js', 'PostgreSQL', 'Docker'],
-    liveDemo: 'https://demo.muneerdev.com/fhirstream',
-    githubUrl: 'https://github.com/muneerdev/fhirstream-pipeline',
+    description:
+      'Clinical intake and patient triage system built with FastAPI and Pydantic. It parses intake data, flags critical vital-sign anomalies (blood pressure, SpO2, heart rate, temperature) and assigns real-time clinical risk categories.',
+    tags: ['FastAPI', 'Pydantic', 'Python', 'React', 'Vercel'],
+    // liveDemo: add the live https://....vercel.app URL from Vercel -> Project -> Domains
+    githubUrl: 'https://github.com/muneerdev01/ClinicaFlow-Intake-Engine',
   },
   {
-    id: 'medisearch-rag',
-    name: 'MediSearch: Grounded Clinical Intelligence Agent',
-    category: 'AI & Machine Learning',
-    description: 'Retrieval-augmented clinical reasoning agent citing PubMed indexed literature with hallucination prevention filters and verified references.',
-    tags: ['Next.js 15', 'React 19', 'Vector DB', 'RAG', 'Python', 'TailwindCSS'],
-    liveDemo: 'https://demo.muneerdev.com/medisearch',
-    githubUrl: 'https://github.com/muneerdev/medisearch-agent',
+    id: 'agenticflow-b2b-intelligence',
+    name: 'AgenticFlow: Autonomous B2B Intelligence Pipeline',
+    category: 'AI & Automation',
+    description:
+      'AI agent pipeline that researches a business lead, verifies the company, scores lead quality and drafts a personalised proposal, with a human approving the final action.',
+    tags: ['LangGraph', 'AI Agents', 'FastAPI', 'React', 'Vercel'],
+    // liveDemo: add the live https://....vercel.app URL from Vercel -> Project -> Domains
+    githubUrl: 'https://github.com/muneerdev01/-AGENTICFLOW-AUTONOMOUS-B2B-INTELLIGENCE-PIPELINE',
   },
   {
-    id: 'cloudpulse-telemetry',
-    name: 'CloudPulse: Distributed Microservice Telemetry',
-    category: 'Cloud & Infrastructure',
-    description: 'Real-time telemetry and health aggregation service monitoring Render-hosted worker instances with sub-second WebSocket updates.',
-    tags: ['Next.js 15', 'Render', 'WebSockets', 'Tailwind CSS v4', 'Redis'],
-    liveDemo: 'https://demo.muneerdev.com/cloudpulse',
-    githubUrl: 'https://github.com/muneerdev/cloudpulse-telemetry',
+    id: 'executive-sales-analytics-dashboard',
+    name: 'Executive Sales Analytics Dashboard',
+    category: 'Data Analytics & BI',
+    description:
+      'Sales dashboard with automated data cleaning, executive KPIs (revenue, profit, margin, return rate), year-over-year growth and interactive filters by date, region and segment.',
+    tags: ['Streamlit', 'Plotly', 'Pandas', 'Python'],
+    liveDemo: 'https://executive-sales-analytics-dashboard.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/-Executive-Sales-Analytics-Dashboard-',
   },
   {
-    id: 'smart-on-fhir-portal',
-    name: 'EHR Connected Patient Portal',
+    id: 'chronic-kidney-disease-dashboard',
+    name: 'Chronic Kidney Disease Clinical Analytics',
     category: 'Healthcare & Informatics',
-    description: 'SMART on FHIR patient-facing dashboard integrating directly with Cerner and Epic sandbox environments with biometric logging.',
-    tags: ['SMART on FHIR', 'OAuth2', 'React 19', 'TypeScript', 'HL7'],
-    liveDemo: 'https://demo.muneerdev.com/ehr-portal',
-    githubUrl: 'https://github.com/muneerdev/ehr-patient-portal',
+    description:
+      'Interactive dashboard for CKD patient data: prevalence, risk tiers, stage distribution, GFR and creatinine analysis, and the impact of diabetes and hypertension.',
+    tags: ['Streamlit', 'Plotly', 'Pandas', 'Healthcare'],
+    liveDemo: 'https://chronic-kidney-disease-v1.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Chronic-Kidney-Disease',
+  },
+  {
+    id: 'breast-cancer-diagnostic',
+    name: 'Enhanced Breast Cancer Diagnostic System',
+    category: 'Healthcare & Informatics',
+    description:
+      '12-phase dataset engineering pipeline with a Streamlit app for breast cancer risk assessment, covering data quality, feature engineering, class imbalance and model explainability.',
+    tags: ['Streamlit', 'scikit-learn', 'Machine Learning', 'Healthcare'],
+    liveDemo: 'https://enhanced-breast-cancer-diagnostic-dataset.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Enhanced-Breast-Cancer-Diagnostic-Dataset',
+  },
+  {
+    id: 'medical-insurance-payout',
+    name: 'Medical Insurance Payout Analysis',
+    category: 'Healthcare & Informatics',
+    description:
+      'Business-intelligence analysis of 1,338 insurance records with predictive modelling, ten visualisations and an interactive dashboard with real-time filters.',
+    tags: ['Streamlit', 'scikit-learn', 'Plotly', 'BI'],
+    liveDemo: 'https://medical-insurance-payout.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Medical-Insurance-Payout',
+  },
+  {
+    id: 'hr-analytics-dashboard',
+    name: 'HR Analytics Dashboard',
+    category: 'Data Analytics & BI',
+    description:
+      'Workforce dashboard built on the IBM HR attrition dataset (1,470+ records) to monitor performance, attrition and hiring trends for workforce planning.',
+    tags: ['Streamlit', 'Plotly', 'scikit-learn', 'Python'],
+    liveDemo: 'https://hr-analytics-dashboard-v1.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/HR-Analytics-Dashboard',
+  },
+  {
+    id: 'telco-churn-analytics',
+    name: 'Telco Customer Churn Analytics',
+    category: 'Data Analytics & BI',
+    description:
+      'Machine learning project that predicts telecom customer churn using preprocessing, exploratory analysis and supervised models, with an interactive Streamlit app.',
+    tags: ['Streamlit', 'scikit-learn', 'Machine Learning', 'Python'],
+    liveDemo: 'https://telco-churn-analytics-v1.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Telco-Churn-Analytics',
+  },
+  {
+    id: 'restaurant-customer-analytics',
+    name: 'Restaurant Customer Analytics',
+    category: 'Data Analytics & BI',
+    description:
+      'Analytics pipeline for restaurant customer data with automated quality audits, K-Means customer segmentation, predictive modelling and sales and profitability trends.',
+    tags: ['Streamlit', 'K-Means', 'scikit-learn', 'Python'],
+    liveDemo: 'https://muneer-restaurantcustomerdataset.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Muneer-Restaurant_Customer_Dataset',
+  },
+  {
+    id: 'pakistani-universities-eda',
+    name: 'Top 20 Pakistani Universities EDA',
+    category: 'Data Analytics & BI',
+    description:
+      'Exploratory analysis of the leading Pakistani universities: city hubs, public versus private sector, research impact and student-faculty ratios.',
+    tags: ['Streamlit', 'Pandas', 'Seaborn', 'EDA'],
+    liveDemo: 'https://top-20-pakistani-universities-eda.streamlit.app/',
+    githubUrl: 'https://github.com/muneerdev01/Top-20-Pakistani-Universities-EDA',
   },
 ];
+
